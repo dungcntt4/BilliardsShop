@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="fragments/layout">
+<head>
+
+    <title layout:fragment="title">Trang Chủ</title>
+    <style>
+        .container-cart {
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr; /* Chia thành 3 cột với tỷ lệ 2:1:1 */
+          gap: 15px; /* Khoảng cách giữa các cột */
+          margin-bottom: 15px; /* Khoảng cách dưới mỗi cart-item */
+          align-items: center; /* Canh chỉnh các phần tử theo chiều dọc */
+        }
+
+        .cart-item-details {
+          display: flex;
+          align-items: center;
+        }
+
+        .cart-item-details img {
+          width: 100px;
+          height: 100px;
+          margin-right: 20px;
+        }
+
+        .cart-item-info h3 {
+          margin: 0;
+        }
+
+        .cart-item-info p {
+          margin: 5px 0 0;
+        }
+        .cart-summary-item {
+          font-size: 1.2em;
+          display: flex;
+          margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container container-cart" style="min-height: 100vh;">
+        <h1>Profile</h1>
+      <p class="card-text" style="color: #000000; font-size: 1em;">Name: <strong th:text="${session.loggedInUser.getFullname()}"> Dũng</strong></p>
+      <p class="card-text" style="color: #000000; font-size: 1em;">Phone: <strong th:text="${session.loggedInUser.getPhonenumber()}"> 14342435</strong></p>
+      <p class="card-text" style="color: #000000; font-size: 1em;">Email: <strong th:text="${session.loggedInUser.getEmail()}"></strong></p>
+      <p class="card-text" style="color: #000000; font-size: 1em;">Address: <strong th:text="${session.loggedInUser.getAddress()}"> Hà Nội</strong></p>
+      <th:block th:each="order ,iterStat : ${orders}">
+        <hr style="margin-top: 60px">
+        <h3 style="color: #000000; font-size: 1em;">Order: <strong th:text="${iterStat.index+1}"> 14342435</strong></h3>
+        <th:block th:each="order_item : ${order.getOrderItems()}">
+        <div class="cart-item">
+          <div class="cart-item-details">
+            <img src="https://bida123.vn/wp-content/uploads/2023/03/Predator-P3-Bocote-Pool-Leather-Wrap-Can-Co-1024x1024.png"
+                 alt="Product Image">
+            <div class="cart-item-info">
+              <h5 th:text="${order_item.getProduct().getProductName()}"></h5>
+              <p th:text="${order_item.getProduct().getBrand().getBrandName()}"></p>
+            </div>
+          </div>
+          <div class="cart-item-price" style="color: #bf0c0c;">
+            <b th:text="${order_item.getProduct().getPrice() + ' $'}">Price</b>
+          </div>
+          <div class="cart-item-info" style="color: #9e9e9e;">
+            <b th:text="${'x' + order_item.getQuantity()}"></b>
+          </div>
+        </div>
+        </th:block>
+        <div class="cart-summary-item" style="margin-bottom: 0px">
+          <span  style="color: #9e9e9e;font-size: 0.9em">Order status: </span>
+          <strong STYLE="font-size: 0.9em" th:text="${order.getOrderStatus()}"></strong>
+        </div>
+        <div class="cart-summary-item">
+          <span  style="color: #9e9e9e;font-size: 0.9em">Date: </span>
+          <strong STYLE="font-size: 0.9em" th:text="${order.getCreatedDate()}"></strong>
+        </div>
+        <div class="cart-summary-item">
+          <strong th:text="'Total (' + ${#aggregates.sum(order.orderItems.![quantity])} + ' Items): '"></strong>
+          <span class="total-amount" style="color: #bf0c0c;">
+            <b  th:text="${order.getTotalAmount()} + '$'"  ></b>
+          </span>
+        </div>
+      </th:block>
+    </div>
+</main>
+</body>
+</html>

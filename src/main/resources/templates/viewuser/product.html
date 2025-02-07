@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="fragments/layout">
+<head >
+
+    <title layout:fragment="title">Category</title>
+    <style>
+        .form-check {
+            margin-bottom: 15px;
+        }
+        .form-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-inline .form-controls {
+            display: flex;
+            align-items: center;
+        }
+        .form-inline label {
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+        .form-inline select {
+            width: 200px;
+        }
+        .list-item {
+            margin-right: 30px; /* Khoảng cách giữa các phần tử li */
+            margin-bottom: 30px; /* Khoảng cách dưới cùng */
+        }
+
+        /* Đảm bảo không có khoảng cách ở phần tử cuối cùng */
+        .list-item:last-child {
+            margin-right: 0;
+        }
+
+        /* Đảm bảo không có khoảng cách ở dòng cuối cùng */
+        .list:last-child {
+            margin-bottom: 0;
+        }
+
+    </style>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container-fluid">
+        <div class="container" style="margin-top: 20px;margin-bottom: 40px">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home" style="color: #244115;text-decoration: none;">
+                        <i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="breadcrumb-item" th:if="${category != null and not #strings.isEmpty(category.getCategoryName())}" th:text="${category.getCategoryName()}"></li>
+                    <li class="breadcrumb-item" th:if="${brand != null and not #strings.isEmpty(brand.getBrandName())}" th:text="${brand.getBrandName()}"></li>
+
+                </ol>
+            </nav>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <div class="container-fluid" style="padding: 0;">
+                        <h4 style="border-bottom: 1px solid gray;">Price</h4>
+                        <form id="filterForm" >
+                        <div class="container">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="priceRange" value="0-10" id="price1" onchange="updateURL()">
+                                <label class="form-check-label" for="price1">
+                                    <10$
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="priceRange" value="10-100" id="price2" onchange="updateURL()">
+                                <label class="form-check-label" for="price2">
+                                    10$-100$
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="priceRange" value="101-500" id="price3" onchange="updateURL()">
+                                <label class="form-check-label" for="price3">
+                                    101$-500$
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="priceRange" value="501-1000" id="price4" onchange="updateURL()">
+                                <label class="form-check-label" for="price4">
+                                    501$-1000$
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="priceRange" value="1001+" id="price5" onchange="updateURL()">
+                                <label class="form-check-label" for="price5">
+                                    >1000$
+                                </label>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="col-9">
+                    <div class="form-inline">
+                        <h2 style="margin: 0;">
+                            <span th:if="${category != null}" th:text="${category.getCategoryName()}"></span>
+                            <span th:if="${brand != null}" th:text="${brand.getBrandName()}"></span>
+
+                        </h2>
+                        <div class="form-controls">
+                            <label for="selectMenu">Arrange:</label>
+                            <select id="selectMenu" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Default</option>
+                                <option value="Low to High Price">Low to High Price</option>
+                                <option value="High to Low Price">High to Low Price</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container-fluid list">
+                        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                            <div class="collapse navbar-collapse">
+                                <ul class="navbar-nav" style="width: 100%; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; list-style-type: none;">
+                                    <li th:each="product : ${products}" class="list-item">
+                                        <a class="nav-link" th:href="@{'productdetails/' + ${product.getUrl()} + '?id=' + ${product.getProductId()}}" style="color: black; text-decoration: none;">
+                                            <div class="card" style="width: 14rem; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); width: 224px; height: 370px;">
+                                                <img src="https://bida123.vn/wp-content/uploads/2023/03/Predator-P3-Bocote-Pool-Leather-Wrap-Can-Co-1024x1024.png" class="card-img-top" alt="...">
+                                                <div class="card-body" style="padding-top: 0; height: 100%;">
+                                                    <h6 class="card-title" th:text="${product.getProductName()}"></h6>
+                                                    <b class="card-text" style="color: #bf0c0c;" th:text="${product.getPrice()} + '$'"></b>
+                                                    <a href="#" class="btn" style="background-color: #684831; color: #feffff;">View details</a>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let url = new URL(window.location.href);
+            let params = new URLSearchParams(url.search);
+
+            // Đánh dấu các checkbox priceRange đã chọn
+            let priceCheckboxes = document.querySelectorAll('input[name="priceRange"]');
+            priceCheckboxes.forEach(checkbox => {
+                if (params.getAll("priceRange").includes(checkbox.value)) {
+                    checkbox.checked = true;
+                }
+            });
+
+            // Đánh dấu các checkbox brand đã chọn
+
+        });
+
+        function updateURL() {
+            let url = new URL(window.location.href);
+            let params = new URLSearchParams(url.search);
+
+            // Xóa tất cả priceRange và brand cũ
+            params.delete("priceRange");
+            params.delete("brand");
+
+            // Lấy tất cả các checkbox priceRange đã chọn
+            let priceCheckboxes = document.querySelectorAll('input[name="priceRange"]:checked');
+            priceCheckboxes.forEach(checkbox => {
+                params.append("priceRange", checkbox.value);
+            });
+
+
+            // Cập nhật URL
+            url.search = params.toString();
+            window.location.href = url.toString();
+        }
+
+    </script>
+</main>
+
+</body>
+</html>
