@@ -20,6 +20,7 @@ CREATE DATABASE billiardsshop;
 ## Demo
 
 ![](src/main/resources/static/images/1.jpg)
+![](src/main/resources/static/images/10.jpg)
 ![](src/main/resources/static/images/2.jpg)
 ![](src/main/resources/static/images/3.jpg)
 ![](src/main/resources/static/images/4.jpg)
@@ -27,7 +28,7 @@ CREATE DATABASE billiardsshop;
 ![](src/main/resources/static/images/6.jpg)
 ![](src/main/resources/static/images/7.jpg)
 ![](src/main/resources/static/images/8.jpg)
-![](src/main/resources/static/images/10.jpg)
+![](src/main/resources/static/images/9.jpg)
 
 ## Các chức năng
 - **Quản lý sản phẩm**: Danh mục bàn bi-a, cơ, bi, găng tay, phụ kiện,...
